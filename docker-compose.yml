@@ -8,6 +8,10 @@ services:
   web:
     build: .
     command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    environment:
+      - ACCESS_TOKEN=$ACCESS_TOKEN
+      - TAPYRUS_API_ENDPOINT_URL=$TAPYRUS_API_ENDPOINT_URL
+      - PKCS_12_PASS=$PKCS_12_PASS
     volumes:
       - .:/myapp
     ports:

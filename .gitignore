@@ -29,3 +29,11 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
+# TapyrusAPI credentials
+access_token.txt
+endpoint.txt
+tapyrus_api_client.pem
+
+*.p12
+.env
