@@ -14,6 +14,14 @@ class TapyrusApi
       res.body[:tokens]
     end
 
+    def get_token(token_id)
+      res = instance.connection.get("/api/v2/tokens/#{token_id}/utxos") do |req|
+        req.headers['Authorization'] = "Bearer #{instance.access_token}"
+      end
+
+      res.body
+    end
+
     def post_tokens_issue(amount:, token_type: 1, split: 1)
       res = instance.connection.post("/api/v2/tokens/issue") do |req|
         req.headers['Authorization'] = "Bearer #{instance.access_token}"

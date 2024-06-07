@@ -25,6 +25,14 @@ namespace :api do
       pp res
     end
   
+    desc 'トークンの情報取得'
+    task :get_token, [:token_id] => :environment do |task, args|
+      token_id = args.token_id.presence
+
+      res = TapyrusApi.get_token(token_id)
+      pp res
+    end
+
     desc 'トークンの新規作成'
     task :post_tokens_issue, [:amount, :token_type, :split] => :environment do |task, args|
       amount = args.amount.presence
