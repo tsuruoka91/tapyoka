@@ -8,4 +8,7 @@ Rails.application.routes.draw do
   end
   resources :wallets, only: [:index, :create]
   root "home#index"
+
+  resources :timestamps
+  resources :users
 end
