@@ -1,6 +1,7 @@
 class TimestampsController < ApplicationController
   def index
-    @timestamps = Kaminari.paginate_array(TapyrusApi.get_timestamps.reverse).page(params[:page])
+    res = TapyrusApi.get_timestamps(per: params[:per], page: params[:page])
+    @timestamps = Kaminari.paginate_array(res[:timestamps], total_count: res[:count]).page(params[:page]).per(params[:per])
   end
 
   def show

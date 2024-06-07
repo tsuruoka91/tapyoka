@@ -74,16 +74,32 @@ class TapyrusApi
       res.body
     end
 
-    def get_timestamps
-      # Additional Task で実装
+    def get_timestamps(per:, page:)
+      res = instance.connection.get("/api/v2/timestamps") do |req|
+        req.headers['Authorization'] = "Bearer #{instance.access_token}"
+        req.params['per'] = per || 25
+        req.params['page'] = page || 1
+      end
+
+      res.body
     end
 
     def get_timestamp(id)
-      # Additional Task で実装
+      res = instance.connection.get("/api/v2/timestamps/#{id}") do |req|
+        req.headers['Authorization'] = "Bearer #{instance.access_token}"
+      end
+
+      res.body
     end
 
     def post_timestamp(content:, digest:, prefix:, type:)
-      # Additional Task で実装
+      res = instance.connection.post("/api/v2/timestamps") do |req|
+        req.headers['Authorization'] = "Bearer #{instance.access_token}"
+        req.headers['Content-Type'] = 'application/json'
+        req.body = JSON.generate({ "content" => content, "digest" => digest, "prefix" => prefix, "type" => type })
+      end
+
+      res.body
     end
   end
 
