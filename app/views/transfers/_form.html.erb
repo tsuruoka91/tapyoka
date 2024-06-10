@@ -1,0 +1,52 @@
+<%= form_with(model: transfer) do |form| %>
+  <% if transfer.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(transfer.errors.count, "error") %> prohibited this transfer from being saved:</h2>
+
+      <ul>
+        <% transfer.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :txid, style: "display: block" %>
+    <%= form.text_field :txid %>
+  </div>
+
+  <div>
+    <%= form.label :token_id, style: "display: block" %>
+    <%= form.text_field :token_id %>
+  </div>
+
+  <div>
+    <%= form.label :amount, style: "display: block" %>
+    <%= form.number_field :amount %>
+  </div>
+
+  <div>
+    <%= form.label :address, style: "display: block" %>
+    <%= form.text_field :address %>
+  </div>
+
+  <div>
+    <%= form.label :from_user_id, style: "display: block" %>
+    <%= form.number_field :from_user_id %>
+  </div>
+
+  <div>
+    <%= form.label :to_user_id, style: "display: block" %>
+    <%= form.number_field :to_user_id %>
+  </div>
+
+  <div>
+    <%= form.label :memo, style: "display: block" %>
+    <%= form.text_area :memo %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

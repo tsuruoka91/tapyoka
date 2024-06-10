@@ -12,12 +12,16 @@
           <!-- 送付するToken情報を入力するフォームを表示 -->
           <div class="row mt-2">
             <div class="form-floating mb-3">
-              <%= f.select :token_id, token_ids, {}, class: "form-select", id: "floatingTokenId" %>
+              <input class="form-control" type="text" value="<%= ENV['TOKEN_ID'] %>" readonly>
               <label for="floatingTokenId">Token Id</label>
             </div>
             <div class="form-floating mb-3">
-              <%= f.text_field :address, class: "form-control", id: "floatingAddress", placeholder: "Address" %>
-              <label for="floatingAddress">Address</label>
+              <%= f.collection_select :from_user, User.all, :id, :name, {}, class: "form-select", id: "floatingFromUser" %>
+              <label for="floatingFromUser">From User</label>
+            </div>
+            <div class="form-floating mb-3">
+              <%= f.collection_select :to_user, User.all, :id, :name, {}, class: "form-select", id: "floatingToUser" %>
+              <label for="floatingToUser">To User</label>
             </div>
             <div class="form-floating mb-3">
               <%= f.number_field :amount, min: 1, class: "form-control", id: "floatingAmount", placeholder: "Amount" %>

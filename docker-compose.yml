@@ -1,20 +1,29 @@
 services:
-  db:
-    image: postgres
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=password
-      - TZ="Asia/Tokyo"
   web:
     build: .
-    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    command: /bin/sh -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     environment:
       - ACCESS_TOKEN=$ACCESS_TOKEN
       - TAPYRUS_API_ENDPOINT_URL=$TAPYRUS_API_ENDPOINT_URL
       - PKCS_12_PASS=$PKCS_12_PASS
+      - TOKEN_ID=$TOKEN_ID
     volumes:
       - .:/myapp
     ports:
       - "3000:3000"
     depends_on:
       - db
+  db:
+    image: postgres:14
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - PGDATA=/var/lib/postgresql/data/pgdata
+      - TZ="Asia/Tokyo"
+    expose:
+      - "5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data/pgdata
+
+volumes:
+  pgdata:

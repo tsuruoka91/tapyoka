@@ -53,9 +53,9 @@ class TapyrusApi
       res.body
     end
 
-    def put_tokens_transfer(token_id, address:, amount:)
+    def put_tokens_transfer(token_id, address:, amount:, access_token: instance.access_token)
       res = instance.connection.put("/api/v2/tokens/#{token_id}/transfer") do |req|
-        req.headers['Authorization'] = "Bearer #{instance.access_token}"
+        req.headers['Authorization'] = "Bearer #{access_token}"
         req.headers['Content-Type'] = 'application/json'
         req.body = JSON.generate({ "address" => address, "amount" => amount })
       end
