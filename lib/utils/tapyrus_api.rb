@@ -14,9 +14,9 @@ class TapyrusApi
       res.body[:tokens]
     end
 
-    def get_token(token_id)
+    def get_token(token_id, access_token: instance.access_token)
       res = instance.connection.get("/api/v2/tokens/#{token_id}/utxos") do |req|
-        req.headers['Authorization'] = "Bearer #{instance.access_token}"
+        req.headers['Authorization'] = "Bearer #{access_token}"
       end
 
       res.body

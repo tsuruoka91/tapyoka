@@ -1,10 +1,45 @@
 <p style="color: green"><%= notice %></p>
 
-<%= render @user %>
+<section class="mb-4">
+  <div class="row g-0">
+    <div class="w-auto ms-auto">
+      <%= link_to "編集", edit_user_path(@user), class: "btn btn-outline-primary" %>
+      <%= link_to "削除", @user, data: { turbo_method: "delete", turbo_confirm: "削除してもよろしいですか？" }, class: "btn btn btn-danger"%>
+      <%= link_to "戻る", users_path, class: "btn btn-link" %>
+      </div>
+  </div>
+</section>
 
-<div>
-  <%= link_to "Edit this user", edit_user_path(@user) %> |
-  <%= link_to "Back to users", users_path %>
-
-  <%= button_to "Destroy this user", @user, method: :delete %>
-</div>
+<section class="mb-4">
+  <div class="card">
+    <div class="card-header text-center py-3">
+      <h5 class="mb-0 text-center">
+        <strong>User #<%= @user.id %></strong>
+      </h5>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-hover text-nowrap">
+          <tbody>
+            <tr>
+              <th scope="col">Id</th>
+              <td scope="col"><%= @user.id %></td>
+            </tr>
+            <tr>
+              <th scope="col">Name</th>
+              <td scope="col"><%= @user.name %></td>
+            </tr>
+            <tr>
+              <th scope="col">Address</th>
+              <td scope="col"><%= @user.address %></th>
+            </tr>
+            <tr>
+              <th scope="col">Amount</th>
+              <td scope="col"><%= @user.amount %></th>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>

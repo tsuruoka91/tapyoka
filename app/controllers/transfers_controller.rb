@@ -3,7 +3,7 @@ class TransfersController < ApplicationController
 
   # GET /transfers or /transfers.json
   def index
-    @transfers = Transfer.all
+    @transfers = Transfer.page(params[:page]).per(25).order('updated_at DESC')
   end
 
   # GET /transfers/1 or /transfers/1.json
