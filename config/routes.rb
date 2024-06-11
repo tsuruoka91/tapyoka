@@ -5,6 +5,8 @@ Rails.application.routes.draw do
     collection do
       get :transfer, to: 'tokens#new'
       post :transfer
+      get :burn_select
+      post :burn
     end
   end
   resources :wallets, only: [:index, :create]

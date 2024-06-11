@@ -33,7 +33,7 @@
           <tr>
             <th scope="row"><%= link_to t[:id], transfer_path(t[:id]) %></th>
             <td><%= link_to t.txid, "https://testnet-explorer.tapyrus.dev.chaintope.com/tx/#{t.txid}" %></td>
-            <td><%= t.from_user.name %> ⇒ <%= t.to_user.name %></td>
+            <td><%= t.from_user.name %> ⇒ <%= t.to_user&.name %></td>
             <td><%= t.amount %></td>
             <td><%= t.memo %></td>
             <td><%= l t.created_at, format: :default %></td>

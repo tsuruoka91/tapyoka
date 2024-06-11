@@ -1,14 +1,12 @@
-class Token::TransferForm
+class Token::BurnForm
   include ActiveModel::Model
   include ActiveModel::Attributes
 
-  attribute :from_user, :integer
-  attribute :to_user, :integer
-  attribute :amount, :integer  
+  attribute :user, :integer
+  attribute :amount, :integer
   attribute :memo, :string
 
-  validates :from_user, presence: true
-  validates :to_user, presence: true
+  validates :user, presence: true
   validates :amount, presence: true
 
   validate :amount_positive_integer?, if: -> { amount.present? }
