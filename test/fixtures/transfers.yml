@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  txid: MyString
+  token_id: MyString
+  amount: 1
+  address: MyString
+  from_user_id: 1
+  to_user_id: 1
+  memo: MyText
+
+two:
+  txid: MyString
+  token_id: MyString
+  amount: 1
+  address: MyString
+  from_user_id: 1
+  to_user_id: 1
+  memo: MyText

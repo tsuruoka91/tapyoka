@@ -17,6 +17,8 @@ module Myapp
     # in config/environments, which are processed later.
     #
     config.time_zone = "Asia/Tokyo"
+    config.i18n.default_locale = :ja
+
     config.eager_load_paths << Rails.root.join("lib/utils")
   end
 end

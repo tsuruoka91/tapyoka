@@ -2,12 +2,12 @@ class Token::TransferForm
   include ActiveModel::Model
   include ActiveModel::Attributes
 
-  attribute :token_id, :string
-  attribute :address, :string
+  attribute :from_user, :integer
+  attribute :to_user, :integer
   attribute :amount, :integer
 
-  validates :token_id, presence: true
-  validates :address, presence: true
+  validates :from_user, presence: true
+  validates :to_user, presence: true
   validates :amount, presence: true
 
   validate :amount_positive_integer?, if: -> { amount.present? }
