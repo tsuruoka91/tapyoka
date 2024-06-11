@@ -63,6 +63,15 @@ class TapyrusApi
       res.body
     end
 
+    def delete_token(token_id, amount:, access_token: instance.access_token)
+      res = instance.connection.delete("/api/v2/tokens/#{token_id}/burn") do |req|
+        req.headers['Authorization'] = "Bearer #{access_token}"
+        req.params['amount'] = amount if amount.present?
+      end
+
+      res.body
+    end
+
     def get_userinfo(confirmation_only = true)
       # http://localhost:3000 で使用している。
       res = instance.connection.get("/api/v1/userinfo") do |req|

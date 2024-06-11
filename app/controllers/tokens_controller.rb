@@ -8,6 +8,10 @@ class TokensController < ApplicationController
       @form = Token::TransferForm.new
       @form.amount = 1
       return render :transfer
+    elsif request.fullpath.split('/').last == 'destroy'
+      @form = Token::DestroyForm.new
+      @form.amount = 1
+      return render :destory
     else
       @form = Token::Form.new
     end
@@ -50,6 +54,7 @@ class TokensController < ApplicationController
         transfer.from_user_id = from_user.id
         transfer.to_user_id = to_user.id
         transfer.address = to_user.address
+        transfer.memo = @form.memo
         transfer.save!
         redirect_to tokens_path, notice: 'Tokenを送付しました。'
       else
@@ -66,6 +71,35 @@ class TokensController < ApplicationController
     render :transfer
   end
 
+  def burn_select
+    @form = Token::BurnForm.new
+    @form.amount = 1
+  end
+
+  def burn
+    @form = Token::BurnForm.new(burn_params)
+
+    if @form.validate
+      user = User.find @form.user
+      res = TapyrusApi.delete_token(ENV['TOKEN_ID'], amount: @form.amount, access_token: user.access_token)
+      logger.info(res)
+      transfer = Transfer.new
+      transfer.token_id = ENV['TOKEN_ID']
+      transfer.amount = @form.amount
+      transfer.from_user_id = user.id
+      transfer.to_user_id = nil
+      transfer.memo = @form.memo
+      transfer.save!
+      redirect_to tokens_path, notice: 'Tokenを焼却しました。'
+    else
+      render :burn_select
+    end
+  rescue StandardError, RuntimeError => e
+    Rails.logger.error(e)
+    flash.now[:alert] = 'Tokenの焼却に失敗しました'
+    render :burn_select
+  end
+
   private
 
   def create_params
@@ -73,6 +107,10 @@ class TokensController < ApplicationController
   end
 
   def transfer_params
-    params.require(:token).permit(:from_user, :to_user, :amount)
+    params.require(:token).permit(:from_user, :to_user, :amount, :memo)
+  end
+
+  def burn_params
+    params.require(:token).permit(:user, :amount, :memo)
   end
 end
