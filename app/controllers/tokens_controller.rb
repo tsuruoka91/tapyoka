@@ -47,15 +47,15 @@ class TokensController < ApplicationController
       res = TapyrusApi.put_tokens_transfer(ENV['TOKEN_ID'], address: to_user.address, amount: @form.amount, access_token: from_user.access_token)
       logger.info(res)
       if res.present?
-        transfer = Transfer.new
-        transfer.txid = res[:txid]
-        transfer.token_id = res[:token_id]
-        transfer.amount = @form.amount
-        transfer.from_user_id = from_user.id
-        transfer.to_user_id = to_user.id
-        transfer.address = to_user.address
-        transfer.memo = @form.memo
-        transfer.save!
+        t = Transaction.new
+        t.txid = res[:txid]
+        t.token_id = res[:token_id]
+        t.amount = @form.amount
+        t.from_user_id = from_user.id
+        t.to_user_id = to_user.id
+        t.address = to_user.address
+        t.memo = @form.memo
+        t.save!
         redirect_to tokens_path, notice: 'Tokenを送付しました。'
       else
         Rails.logger.error("#{self.class.name}##{__method__} res=#{res}")
@@ -83,13 +83,13 @@ class TokensController < ApplicationController
       user = User.find @form.user
       res = TapyrusApi.delete_token(ENV['TOKEN_ID'], amount: @form.amount, access_token: user.access_token)
       logger.info(res)
-      transfer = Transfer.new
-      transfer.token_id = ENV['TOKEN_ID']
-      transfer.amount = @form.amount
-      transfer.from_user_id = user.id
-      transfer.to_user_id = nil
-      transfer.memo = @form.memo
-      transfer.save!
+      t = Transaction.new
+      t.token_id = ENV['TOKEN_ID']
+      t.amount = @form.amount
+      t.from_user_id = user.id
+      t.to_user_id = nil
+      t.memo = @form.memo
+      t.save!
       redirect_to tokens_path, notice: 'Tokenを焼却しました。'
     else
       render :burn_select
