@@ -24,7 +24,9 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should show user" do
-    get user_url(@user)
+    User.stub_any_instance(:amount, 1) do
+      get user_url(@user)
+    end
     assert_response :success
   end
 

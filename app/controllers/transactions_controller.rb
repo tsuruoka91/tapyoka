@@ -3,7 +3,7 @@ class TransactionsController < ApplicationController
 
   # GET /transactions or /transactions.json
   def index
-    @transactions = Transaction.page(params[:page]).per(25).order('updated_at DESC')
+    @transactions = Transaction.page(params[:page]).per(25).order('id DESC')
   end
 
   # GET /transactions/1 or /transactions/1.json
@@ -65,6 +65,6 @@ class TransactionsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def transaction_params
-      params.require(:transaction).permit(:txid, :token_id, :amount, :address, :from_user_id, :to_user_id, :memo)
+      params.require(:transaction).permit(:txid, :token_id, :transaction_type, :amount, :address, :user_id, :to_user_id, :memo)
     end
 end

@@ -54,6 +54,8 @@ gem "sassc-rails"
 # pagenate
 gem "kaminari"
 
+gem 'enum_help'
+
 gem "faraday"
 gem "faraday_middleware"
 
@@ -77,5 +79,6 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+  gem 'minitest-stub_any_instance'
 
 end

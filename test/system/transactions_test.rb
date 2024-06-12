@@ -16,7 +16,7 @@ class TransactionsTest < ApplicationSystemTestCase
 
     fill_in "Address", with: @transaction.address
     fill_in "Amount", with: @transaction.amount
-    fill_in "From user", with: @transaction.from_user_id
+    fill_in "From user", with: @transaction.user_id
     fill_in "Memo", with: @transaction.memo
     fill_in "To user", with: @transaction.to_user_id
     fill_in "Token", with: @transaction.token_id
@@ -33,7 +33,7 @@ class TransactionsTest < ApplicationSystemTestCase
 
     fill_in "Address", with: @transaction.address
     fill_in "Amount", with: @transaction.amount
-    fill_in "From user", with: @transaction.from_user_id
+    fill_in "From user", with: @transaction.user_id
     fill_in "Memo", with: @transaction.memo
     fill_in "To user", with: @transaction.to_user_id
     fill_in "Token", with: @transaction.token_id

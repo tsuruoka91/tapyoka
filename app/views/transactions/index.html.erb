@@ -22,7 +22,8 @@
           <tr>
             <th scope="col">Id</th>
             <th scope="col">Txid</th>
-            <th scope="col">取引</th>
+            <th scope="col">種類</th>            
+            <th scope="col">対象</th>
             <th scope="col">タピオカ</th>
             <th scope="col">メモ</th>
             <th scope="col">日時</th>
@@ -33,7 +34,8 @@
           <tr>
             <th scope="row"><%= link_to t[:id], transaction_path(t[:id]) %></th>
             <td><%= link_to t.txid, "https://testnet-explorer.tapyrus.dev.chaintope.com/tx/#{t.txid}" %></td>
-            <td><%= t.from_user.name %> ⇒ <%= t.to_user&.name %></td>
+            <td><%= t.transaction_type_i18n %></td>
+            <td><%= t.user&.name %> ⇒ <%= t.to_user&.name %></td>
             <td><%= t.amount %></td>
             <td><%= t.memo %></td>
             <td><%= l t.created_at, format: :default %></td>

@@ -93,6 +93,8 @@ GEM
     debug (1.9.2)
       irb (~> 1.10)
       reline (>= 0.3.8)
+    enum_help (0.0.19)
+      activesupport (>= 3.0.0)
     erubi (1.12.0)
     execjs (2.9.1)
     faraday (1.10.3)
@@ -161,6 +163,7 @@ GEM
     method_source (1.1.0)
     mini_mime (1.1.5)
     minitest (5.23.1)
+    minitest-stub_any_instance (1.0.3)
     msgpack (1.7.2)
     multipart-post (2.4.1)
     net-imap (0.4.12)
@@ -278,11 +281,13 @@ DEPENDENCIES
   bootstrap
   capybara
   debug
+  enum_help
   faraday
   faraday_middleware
   importmap-rails
   jbuilder
   kaminari
+  minitest-stub_any_instance
   pg (~> 1.1)
   puma (~> 5.0)
   rails (~> 7.0.8)

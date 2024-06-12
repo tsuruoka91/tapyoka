@@ -22,6 +22,11 @@
   </div>
 
   <div>
+    <%= form.label :type, style: "display: block" %>
+    <%= form.select :transaction_type, Transaction.transaction_types_i18n.invert %>
+  </div>
+
+  <div>
     <%= form.label :amount, style: "display: block" %>
     <%= form.number_field :amount %>
   </div>
@@ -32,8 +37,8 @@
   </div>
 
   <div>
-    <%= form.label :from_user_id, style: "display: block" %>
-    <%= form.number_field :from_user_id %>
+    <%= form.label :user_id, style: "display: block" %>
+    <%= form.number_field :user_id %>
   </div>
 
   <div>
