@@ -17,7 +17,18 @@ class TransactionsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create transaction" do
     assert_difference("Transaction.count") do
-      post transactions_url, params: { transaction: { address: @transaction.address, amount: @transaction.amount, from_user_id: @transaction.from_user_id, memo: @transaction.memo, to_user_id: @transaction.to_user_id, token_id: @transaction.token_id, txid: @transaction.txid } }
+      post transactions_url, params: {
+        transaction: {
+          txid: @transaction.txid,
+          token_id: @transaction.token_id,
+          address: @transaction.address,
+          transaction_type: @transaction.transaction_type,
+          amount: @transaction.amount,
+          user_id: @transaction.user_id,
+          to_user_id: @transaction.to_user_id,
+          memo: @transaction.memo
+        }
+      }
     end
 
     assert_redirected_to transaction_url(Transaction.last)
@@ -34,7 +45,18 @@ class TransactionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update transaction" do
-    patch transaction_url(@transaction), params: { transaction: { address: @transaction.address, amount: @transaction.amount, from_user_id: @transaction.from_user_id, memo: @transaction.memo, to_user_id: @transaction.to_user_id, token_id: @transaction.token_id, txid: @transaction.txid } }
+    patch transaction_url(@transaction), params: {
+      transaction: {
+        txid: @transaction.txid,
+        token_id: @transaction.token_id,
+        address: @transaction.address,
+        transaction_type: @transaction.transaction_type,
+        amount: @transaction.amount,
+        user_id: @transaction.user_id,
+        to_user_id: @transaction.to_user_id,
+        memo: @transaction.memo
+      }
+    }
     assert_redirected_to transaction_url(@transaction)
   end
 

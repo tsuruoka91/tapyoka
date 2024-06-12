@@ -3,17 +3,19 @@
 one:
   txid: MyString
   token_id: MyString
+  transaction_type: 1
   amount: 1
   address: MyString
-  from_user_id: 1
-  to_user_id: 1
+  user: one
+  to_user: two
   memo: MyText
 
 two:
   txid: MyString
   token_id: MyString
+  transaction_type: 2
   amount: 1
   address: MyString
-  from_user_id: 1
-  to_user_id: 1
+  user: one
+  to_user: two
   memo: MyText

@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  has_many :transactions
+
   def amount
     res = TapyrusApi.get_token(ENV['TOKEN_ID'], access_token: access_token)
     pp res

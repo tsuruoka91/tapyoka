@@ -50,8 +50,9 @@ class TokensController < ApplicationController
         t = Transaction.new
         t.txid = res[:txid]
         t.token_id = res[:token_id]
+        t.transaction_type = Transaction.transaction_types[:transfer]
         t.amount = @form.amount
-        t.from_user_id = from_user.id
+        t.user_id = from_user.id
         t.to_user_id = to_user.id
         t.address = to_user.address
         t.memo = @form.memo
@@ -85,9 +86,9 @@ class TokensController < ApplicationController
       logger.info(res)
       t = Transaction.new
       t.token_id = ENV['TOKEN_ID']
+      t.transaction_type = Transaction.transaction_types[:burn]
       t.amount = @form.amount
       t.from_user_id = user.id
-      t.to_user_id = nil
       t.memo = @form.memo
       t.save!
       redirect_to tokens_path, notice: 'Tokenを焼却しました。'

@@ -34,12 +34,16 @@
               <td scope="col"><%= @transaction.token_id %></th>
             </tr>
             <tr>
-              <th scope="col">From User</th>
-              <td scope="col"><%= @transaction.from_user %></th>
+              <th scope="col">種類</th>
+              <td scope="col"><%= @transaction.transaction_type_i18n %></th>
+            </tr>
+            <tr>
+              <th scope="col">User</th>
+              <td scope="col"><%= @transaction.user&.name %></th>
             </tr>
             <tr>
               <th scope="col">To User</th>
-              <td scope="col"><%= @transaction.to_user %></th>
+              <td scope="col"><%= @transaction.to_user&.name %></th>
             </tr>
             <tr>
               <th scope="col">メモ</th>

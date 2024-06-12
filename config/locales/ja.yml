@@ -1,5 +1,10 @@
 ---
 ja:
+  enums:
+    transaction:
+      transaction_type:
+        transfer: 送付
+        burn: 焼却
   activerecord:
     errors:
       messages:
