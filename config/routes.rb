@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  resources :transfers
   get 'home', to: 'home#index'
   resources :tokens, only: [:index, :new, :create] do
     collection do
@@ -13,5 +12,6 @@ Rails.application.routes.draw do
   root "home#index"
 
   resources :timestamps
+  resources :transactions
   resources :users
 end

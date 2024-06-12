@@ -3,9 +3,9 @@
 <section class="mb-4">
   <div class="row g-0">
     <div class="w-auto ms-auto">
-      <%= link_to "編集", edit_transfer_path(@transfer), class: "btn btn-outline-primary" %>
-      <%= link_to "削除", @transfer, data: { turbo_method: "delete", turbo_confirm: "削除してもよろしいですか？" }, class: "btn btn btn-danger"%>
-      <%= link_to "戻る", transfers_path, class: "btn btn-link" %>
+      <%= link_to "編集", edit_transaction_path(@transaction), class: "btn btn-outline-primary" %>
+      <%= link_to "削除", @transaction, data: { turbo_method: "delete", turbo_confirm: "削除してもよろしいですか？" }, class: "btn btn btn-danger"%>
+      <%= link_to "戻る", transactions_path, class: "btn btn-link" %>
       </div>
   </div>
 </section>
@@ -14,7 +14,7 @@
   <div class="card">
     <div class="card-header text-center py-3">
       <h5 class="mb-0 text-center">
-        <strong>Transfer #<%= @transfer.id %></strong>
+        <strong>Transaction #<%= @transaction.id %></strong>
       </h5>
     </div>
     <div class="card-body">
@@ -23,27 +23,27 @@
           <tbody>
             <tr>
               <th scope="col">Id</th>
-              <td scope="col"><%= @transfer.id %></td>
+              <td scope="col"><%= @transaction.id %></td>
             </tr>
             <tr>
               <th scope="col">Txid</th>
-              <td scope="col"><%= @transfer.txid %></th>
+              <td scope="col"><%= @transaction.txid %></th>
             </tr>
             <tr>
               <th scope="col">Token Id</th>
-              <td scope="col"><%= @transfer.token_id %></th>
+              <td scope="col"><%= @transaction.token_id %></th>
             </tr>
             <tr>
               <th scope="col">From User</th>
-              <td scope="col"><%= @transfer.from_user %></th>
+              <td scope="col"><%= @transaction.from_user %></th>
             </tr>
             <tr>
               <th scope="col">To User</th>
-              <td scope="col"><%= @transfer.to_user %></th>
+              <td scope="col"><%= @transaction.to_user %></th>
             </tr>
             <tr>
               <th scope="col">メモ</th>
-              <td scope="col"><%= @transfer.memo %></th>
+              <td scope="col"><%= @transaction.memo %></th>
             </tr>
           </tbody>
         </table>
