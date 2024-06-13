@@ -6,7 +6,6 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.1.1/css/all.css" />
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
@@ -26,39 +25,35 @@
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <i class="fas fa-bars"></i>
+          <span class="navbar-toggler-icon"></span>
         </button>
 
         <!-- Collapsible wrapper -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <!-- Navbar brand -->
           <a class="navbar-brand mt-2 mt-lg-0" href="<%= root_url %>">
-            <img
-              src="<%= asset_path('tapyoka-logo.png') %>"
-              height="48"
-              alt=""
-              loading="lazy"
-              />
+            <img src="<%= asset_path('tapyoka-logo.png') %>" width="48" height="48" alt="Logo" loading="lazy" />
+            Tapyoka
           </a>
           <!-- Left links -->
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link" href="<%= home_url %>">Home</a>
+              <a class="nav-link <%= active_if('home') %>" href="<%= home_url %>">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="<%= wallets_url %>">Wallets</a>
+              <a class="nav-link <%= active_if('wallets') %>" href="<%= wallets_url %>">Wallets</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="<%= tokens_url %>">Token</a>
+              <a class="nav-link <%= active_if('tokens') %>" href="<%= tokens_url %>">Token</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="<%= timestamps_url %>">Timestamp</a>
+              <a class="nav-link <%= active_if('timestamps') %>" href="<%= timestamps_url %>">Timestamp</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="<%= transactions_url %>">Transactions</a>
+              <a class="nav-link <%= active_if('transactions') %>" href="<%= transactions_url %>">Transactions</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="<%= users_url %>">Users</a>
+              <a class="nav-link <%= active_if('users') %>" href="<%= users_url %>">Users</a>
             </li>
             </ul>
           <!-- Left links -->
