@@ -14,4 +14,6 @@ Rails.application.routes.draw do
   resources :timestamps
   resources :transactions
   resources :users
+
+  ActiveAdmin.routes(self)
 end
