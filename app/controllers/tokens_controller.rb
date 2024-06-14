@@ -8,10 +8,6 @@ class TokensController < ApplicationController
       @form = Token::TransferForm.new
       @form.amount = 1
       return render :transfer
-    elsif request.fullpath.split('/').last == 'destroy'
-      @form = Token::DestroyForm.new
-      @form.amount = 1
-      return render :destory
     else
       @form = Token::Form.new
     end
@@ -27,7 +23,7 @@ class TokensController < ApplicationController
       else
         Rails.logger.error("#{self.class.name}##{__method__} res=#{res}")
         flash.now[:alert] = 'TapyrusAPIの接続で障害が発生しました'
-        render :new
+        render :new, status: :unprocessable_entity
       end
     else
       render :new
@@ -61,15 +57,15 @@ class TokensController < ApplicationController
       else
         Rails.logger.error("#{self.class.name}##{__method__} res=#{res}")
         flash.now[:alert] = 'TapyrusAPIの接続で障害が発生しました'
-        render :transfer
+        render :transfer, status: :unprocessable_entity
       end
     else
-      render :transfer
+      render :transfer, status: :unprocessable_entity
     end
   rescue StandardError, RuntimeError => e
     Rails.logger.error(e)
     flash.now[:alert] = 'Tokenの送付に失敗しました'
-    render :transfer
+    render :transfer, status: :unprocessable_entity
   end
 
   def burn_select
@@ -88,17 +84,17 @@ class TokensController < ApplicationController
       t.token_id = ENV['TOKEN_ID']
       t.transaction_type = Transaction.transaction_types[:burn]
       t.amount = @form.amount
-      t.from_user_id = user.id
+      t.user_id = user.id
       t.memo = @form.memo
       t.save!
       redirect_to tokens_path, notice: 'Tokenを焼却しました。'
     else
-      render :burn_select
+      render :burn_select, status: :unprocessable_entity
     end
   rescue StandardError, RuntimeError => e
     Rails.logger.error(e)
     flash.now[:alert] = 'Tokenの焼却に失敗しました'
-    render :burn_select
+    render :burn_select, status: :unprocessable_entity
   end
 
   private

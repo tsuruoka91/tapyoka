@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   get 'home', to: 'home#index'
+  get 'change_admin', to: 'home#change_admin'
+
   resources :tokens, only: [:index, :new, :create] do
     collection do
       get :transfer, to: 'tokens#new'
@@ -14,4 +16,6 @@ Rails.application.routes.draw do
   resources :timestamps
   resources :transactions
   resources :users
+
+  ActiveAdmin.routes(self)
 end
