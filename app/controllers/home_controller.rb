@@ -1,6 +1,8 @@
 class HomeController < ApplicationController
   def index
-    @userinfo = TapyrusApi.get_userinfo
+    @users = User.order('id')
+    @users = @users.where(role: :user) unless view_context.admin?
+    @transactions = Transaction.order('id DESC').limit(5)
   end
 
   def change_admin
