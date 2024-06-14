@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   get 'home', to: 'home#index'
+  get 'change_admin', to: 'home#change_admin'
+
   resources :tokens, only: [:index, :new, :create] do
     collection do
       get :transfer, to: 'tokens#new'
