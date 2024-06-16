@@ -24,14 +24,14 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should show user" do
-    User.stub_any_instance(:amount, 1) do
-      get user_url(@user)
-    end
+    get user_url(@user)
     assert_response :success
   end
 
   test "should get edit" do
-    get edit_user_url(@user)
+    User.stub_any_instance(:amount_by_blockchain, 1) do
+      get edit_user_url(@user)
+    end
     assert_response :success
   end
 

@@ -1,57 +1,62 @@
-<%= form_with(model: transaction) do |form| %>
-  <% if transaction.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(transaction.errors.count, "error") %> prohibited this transaction from being saved:</h2>
-
-      <ul>
-        <% transaction.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+<section class="mb-4">
+  <div class="card">
+    <div class="card-header py-3">
+      <h5 class="mb-0 text-center"><strong>Transfer Token</strong></h5>
     </div>
-  <% end %>
+    <div class="card-body">
+      <div class="container">
 
-  <div>
-    <%= form.label :txid, style: "display: block" %>
-    <%= form.text_field :txid %>
-  </div>
+        <div class="row mt-2">
+        <%= form_with(model: transaction) do |form| %>
+          <div class="row mt-2">
 
-  <div>
-    <%= form.label :token_id, style: "display: block" %>
-    <%= form.text_field :token_id %>
-  </div>
+            <% if transaction.errors.any? %>
+              <div style="color: red">
+                <h2><%= pluralize(transaction.errors.count, "error") %> prohibited this transaction from being saved:</h2>
+          
+                <ul>
+                  <% transaction.errors.each do |error| %>
+                    <li><%= error.full_message %></li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
 
-  <div>
-    <%= form.label :type, style: "display: block" %>
-    <%= form.select :transaction_type, Transaction.transaction_types_i18n.invert %>
-  </div>
+            <div class="mb-3">
+              <label for="transaction_transaction_type">取引種</label>
+              <%= form.select :transaction_type, Transaction.transaction_types_i18n.invert, {}, class: "form-select" %>
+            </div>
 
-  <div>
-    <%= form.label :amount, style: "display: block" %>
-    <%= form.number_field :amount %>
-  </div>
+            <div class="mb-3">
+              <label for="transaction_user_id">User</label>
+              <%= form.collection_select :user_id, User.all, :id, :name, {}, class: "form-select" %>
+            </div>
 
-  <div>
-    <%= form.label :address, style: "display: block" %>
-    <%= form.text_field :address %>
-  </div>
+            <div class="mb-3">
+              <label for="transaction_to_user_id">To User</label>
+              <%= form.collection_select :to_user_id, User.all, :id, :name, {}, class: "form-select" %>
+            </div>
 
-  <div>
-    <%= form.label :user_id, style: "display: block" %>
-    <%= form.number_field :user_id %>
-  </div>
+            <div class="mb-3">
+              <label for="transaction_amount">Amount</label>
+              <%= form.number_field :amount, min: 1, class: "form-control" %>
+            </div>
 
-  <div>
-    <%= form.label :to_user_id, style: "display: block" %>
-    <%= form.number_field :to_user_id %>
-  </div>
+            <div class="mb-3">
+              <label for="transaction_memo">メモ</label>
+              <%= form.text_field :memo, class: "form-control" %>
+            </div>
 
-  <div>
-    <%= form.label :memo, style: "display: block" %>
-    <%= form.text_area :memo %>
+          </div>
+          <div class="row g-0">
+            <div class="w-auto ms-auto">
+              <%= form.submit "実行", class: "btn btn-outline-primary" %>
+              <%= link_to "キャンセル", :back, class: "btn btn-light" %>
+            </div>
+          </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
   </div>
-
-  <div>
-    <%= form.submit %>
-  </div>
-<% end %>
+</section>

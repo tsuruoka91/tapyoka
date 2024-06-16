@@ -13,6 +13,7 @@ class TransactionsController < ApplicationController
   # GET /transactions/new
   def new
     @transaction = Transaction.new
+    @transaction.amount = 1
   end
 
   # GET /transactions/1/edit
@@ -22,9 +23,21 @@ class TransactionsController < ApplicationController
   # POST /transactions or /transactions.json
   def create
     @transaction = Transaction.new(transaction_params)
-
+    @transaction.token_id = ENV['TOKEN_ID']
     respond_to do |format|
-      if @transaction.save
+      if @transaction.valid?
+
+        res = TapyrusApi.put_tokens_transfer(@transaction.token_id, address: @transaction.to_user.address, amount: @transaction.amount, access_token: @transaction.user.access_token)
+        logger.info(res)
+        if res.present?
+          @transaction.txid = res[:txid]
+          @transaction.save!
+        else
+          Rails.logger.error("#{self.class.name}##{__method__} res=#{res}")
+          flash.now[:alert] = 'TapyrusAPIの接続で障害が発生しました'
+          render :new, status: :unprocessable_entity
+        end
+
         format.html { redirect_to transaction_url(@transaction), notice: "transaction was successfully created." }
         format.json { render :show, status: :created, location: @transaction }
       else

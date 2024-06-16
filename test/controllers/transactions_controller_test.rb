@@ -1,4 +1,5 @@
 require "test_helper"
+require 'minitest/mock'
 
 class TransactionsControllerTest < ActionDispatch::IntegrationTest
   setup do
@@ -17,18 +18,20 @@ class TransactionsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create transaction" do
     assert_difference("Transaction.count") do
-      post transactions_url, params: {
-        transaction: {
-          txid: @transaction.txid,
-          token_id: @transaction.token_id,
-          address: @transaction.address,
-          transaction_type: @transaction.transaction_type,
-          amount: @transaction.amount,
-          user_id: @transaction.user_id,
-          to_user_id: @transaction.to_user_id,
-          memo: @transaction.memo
+      TapyrusApi.stub(:put_tokens_transfer, {txid: @transaction.txid}) do
+        post transactions_url, params: {
+          transaction: {
+            txid: @transaction.txid,
+            token_id: @transaction.token_id,
+            address: @transaction.address,
+            transaction_type: @transaction.transaction_type,
+            amount: @transaction.amount,
+            user_id: @transaction.user_id,
+            to_user_id: @transaction.to_user_id,
+            memo: @transaction.memo
+          }
         }
-      }
+      end
     end
 
     assert_redirected_to transaction_url(Transaction.last)
