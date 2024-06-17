@@ -3,36 +3,59 @@
   </div>
 </section>
 
-<!-- Section: Userinfo -->
-<section class="mb-4">
-  <div class="card">
-    <div class="card-header text-center py-3">
-      <h5 class="mb-0 text-center">
-        <strong>User Info</strong>
-      </h5>
-    </div>
-    <div class="card-body">
-      <div class="table-responsive">
-        <table class="table table-hover text-nowrap">
-          <tbody>
-            <tr>
-              <th scope="col">User id</th>
-              <td scope="col"><%= @userinfo[:sub] %></td>
-            </tr>
-            <tr>
-              <th scope="col">Addresses</th>
-              <td scope="col"><%= @userinfo[:addresses].first %></th>
-            </tr>
-            <% @userinfo[:addresses][1..-1].to_a.each do |address| %>
-              <tr>
-                <th scope="col"></th>
-                <td scope="col"><%= address %></th>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
+<div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+  <h1 class="display-4 fw-light text-body-emphasis">Tapyoka Coin</h1>
+  <p class="lead text-body-secondaryy">家庭内で取引されるブロックチェーン上のステーブルコイン。1タピオカは日本円の100円に交換可能。</p>
+</div>
+
+
+<div class="row row-cols-1 row-cols-md-4 mb-3 text-center">
+  <% @users.each do |user| %>
+    <div class="col">
+      <div class="card mb-4 rounded-3 shadow-sm">
+        <div class="card-header py-3">
+          <h4 class="my-0 fw-normal"><%= user.name %></h4>
+        </div>
+        <div class="card-body">
+          <h1 class="card-title pricing-card-title"><%= user.amount %><small class="text-body-secondary fw-light">TPOK</small></h1>
+          <ul class="list-unstyled fw-light mt-3 mb-4">
+            <li>日本円価格 <%= user.amount * 100 %> JPY</li>
+            <li>今までもらったコイン <%= Transaction.where(to_user: user).sum(:amount)  %></li>
+            <li>今まで現金化したコイン <%= user.transactions.where(transaction_type: :burn).sum(:amount)  %></li>
+          </ul>
+          <%= link_to "送金", new_transaction_path(user_id: user), class: "w-50 btn btn-lg btn-outline-primary" %>
+          <%= link_to "換金", burn_new_transactions_path(user_id: user), class: "btn btn-lg btn-outline-primary" %>
+        </div>
       </div>
     </div>
-  </div>
-</section>
-<!-- Section: Userinfo -->
+  <% end %>
+</div>
+
+<h2 class="display-6 text-right mb-4">最近の取引</h2>
+
+<div class="table-responsive">
+  <table class="table text-right table-hover text-nowrap table-striped table-sm">
+    <thead>
+      <tr>
+        <th>日時</th>
+        <th>tx</th>
+        <th>種類</th>
+        <th>対象</th>
+        <th>タピオカ</th>
+        <th>メモ</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @transactions.each do |t| %>
+        <tr>
+          <th scope="row" class="text-start"><%= link_to (l t.created_at, format: :default), transaction_path(t[:id]), class: "link-primary" %></th>
+          <td><%= link_to t.txid, "https://testnet-explorer.tapyrus.dev.chaintope.com/tx/#{t.txid}", class: "link-secondary" %></td>
+          <td><%= t.transaction_type_i18n %></td>
+          <td><%= t.user&.name %> ⇒ <%= t.to_user&.name %></td>
+          <td><%= t.amount %></td>
+          <td><%= t.memo %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

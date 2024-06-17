@@ -3,7 +3,8 @@ class UsersController < ApplicationController
 
   # GET /users or /users.json
   def index
-    @users = User.all
+    @users = User.order('id')
+    @users = @users.where(role: :user) unless view_context.admin?
   end
 
   # GET /users/1 or /users/1.json
@@ -17,6 +18,7 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
+    @user.amount = @user.amount_by_blockchain
   end
 
   # POST /users or /users.json
@@ -65,6 +67,6 @@ class UsersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def user_params
-      params.require(:user).permit(:name, :access_token, :address)
+      params.require(:user).permit(:name, :access_token, :address, :amount)
     end
 end

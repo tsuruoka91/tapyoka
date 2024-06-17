@@ -4,7 +4,6 @@
   <div class="row g-0">
     <div class="w-auto ms-auto">
       <%= link_to "編集", edit_user_path(@user), class: "btn btn-outline-primary" %>
-      <%= link_to "削除", @user, data: { turbo_method: "delete", turbo_confirm: "削除してもよろしいですか？" }, class: "btn btn btn-danger"%>
       <%= link_to "戻る", users_path, class: "btn btn-link" %>
       </div>
   </div>
