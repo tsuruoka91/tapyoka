@@ -13,6 +13,14 @@ class TransactionsController < ApplicationController
   # GET /transactions/new
   def new
     @transaction = Transaction.new
+    @transaction.user_id = params[:user_id]
+    @transaction.amount = 1
+  end
+
+  # GET /transactions/burn_new
+  def burn_new
+    @transaction = Transaction.new
+    @transaction.user_id = params[:user_id]
     @transaction.amount = 1
   end
 
@@ -24,9 +32,9 @@ class TransactionsController < ApplicationController
   def create
     @transaction = Transaction.new(transaction_params)
     @transaction.token_id = ENV['TOKEN_ID']
+    @transaction.transaction_type = Transaction.transaction_types[:transfer]
     respond_to do |format|
-      if @transaction.valid?
-
+      if @transaction.save
         res = TapyrusApi.put_tokens_transfer(@transaction.token_id, address: @transaction.to_user.address, amount: @transaction.amount, access_token: @transaction.user.access_token)
         logger.info(res)
         if res.present?
@@ -42,6 +50,24 @@ class TransactionsController < ApplicationController
         format.json { render :show, status: :created, location: @transaction }
       else
         format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @transaction.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # POST /transactions/burn or /transactions/burn.json
+  def burn
+    @transaction = Transaction.new(transaction_params)
+    @transaction.token_id = ENV['TOKEN_ID']
+    @transaction.transaction_type = Transaction.transaction_types[:burn]
+    respond_to do |format|
+      if @transaction.save
+        TapyrusApi.delete_token(@transaction.token_id, amount: @transaction.amount, access_token: @transaction.user.access_token)
+
+        format.html { redirect_to transaction_url(@transaction), notice: "transaction was successfully created." }
+        format.json { render :show, status: :created, location: @transaction }
+      else
+        format.html { render :burn_new, status: :unprocessable_entity }
         format.json { render json: @transaction.errors, status: :unprocessable_entity }
       end
     end

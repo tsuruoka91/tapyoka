@@ -1,13 +1,13 @@
 <section class="mb-4">
   <div class="card">
     <div class="card-header py-3">
-      <h5 class="mb-0 text-center"><strong>タピオカ送金</strong></h5>
+      <h5 class="mb-0 text-center"><strong>Transfer Token</strong></h5>
     </div>
     <div class="card-body">
       <div class="container">
 
         <div class="row mt-2">
-        <%= form_with(model: transaction) do |form| %>
+        <%= form_with(model: transaction, url: burn_transactions_path) do |form| %>
           <div class="row mt-2">
 
             <% if transaction.errors.any? %>
@@ -23,18 +23,13 @@
             <% end %>
 
             <div class="mb-3">
-              <label for="transaction_user_id">ユーザー</label>
+              <label for="transaction_user_id">User</label>
               <%= form.hidden_field :user_id, value: @transaction.user_id %>
               <%= form.text_field :dummy, { value: @transaction.user.name, class: "form-control", readonly: true } %>
             </div>
 
             <div class="mb-3">
-              <label for="transaction_to_user_id">送り先</label>
-              <%= form.collection_select :to_user_id, recipient_users(@transaction.user_id), :id, :name, {include_blank: true}, class: "form-select" %>
-            </div>
-
-            <div class="mb-3">
-              <label for="transaction_amount">タピオカ</label>
+              <label for="transaction_amount">Amount</label>
               <%= form.number_field :amount, min: 1, class: "form-control" %>
             </div>
 

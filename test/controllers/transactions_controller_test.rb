@@ -12,7 +12,7 @@ class TransactionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get new" do
-    get new_transaction_url
+    get new_transaction_url(user_id: @transaction.user_id)
     assert_response :success
   end
 
