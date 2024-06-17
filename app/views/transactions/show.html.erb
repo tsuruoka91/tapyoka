@@ -3,10 +3,8 @@
 <section class="mb-4">
   <div class="row g-0">
     <div class="w-auto ms-auto">
-      <%= link_to "編集", edit_transaction_path(@transaction), class: "btn btn-outline-primary" %>
-      <%= link_to "削除", @transaction, data: { turbo_method: "delete", turbo_confirm: "削除してもよろしいですか？" }, class: "btn btn btn-danger"%>
       <%= link_to "戻る", transactions_path, class: "btn btn-link" %>
-      </div>
+    </div>
   </div>
 </section>
 
