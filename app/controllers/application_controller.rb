@@ -6,10 +6,10 @@ class ApplicationController < ActionController::Base
   private
 
   def render_unauthorized
-    render template: 'layouts/401', status: 401
+    render template: 'layouts/401', status: :unauthorized
   end
 
   def render_not_found
-    render template: 'layouts/404', status: 404
+    render template: 'layouts/404', status: :not_found
   end
 end

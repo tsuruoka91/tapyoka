@@ -1,0 +1,47 @@
+<!-- Section: Token transfer -->
+<section class="mb-4">
+  <div class="card">
+    <div class="card-header py-3">
+      <h5 class="mb-0 text-center"><strong>Transfer Token</strong></h5>
+    </div>
+    <div class="card-body">
+      <div class="container">
+
+        <div class="row mt-2">
+        <%= form_with model: @form, scope: "token", :url => transfer_tokens_path, :html => {:class => ''} do |f| %>
+          <!-- 送付するToken情報を入力するフォームを表示 -->
+          <div class="row mt-2">
+            <div class="form-floating mb-3">
+              <input class="form-control" type="text" value="<%= ENV['TOKEN_ID'] %>" readonly>
+              <label for="floatingTokenId">Token Id</label>
+            </div>
+            <div class="form-floating mb-3">
+              <%= f.collection_select :from_user, User.all, :id, :name, {}, class: "form-select", id: "floatingFromUser" %>
+              <label for="floatingFromUser">From User</label>
+            </div>
+            <div class="form-floating mb-3">
+              <%= f.collection_select :to_user, User.all, :id, :name, {}, class: "form-select", id: "floatingToUser" %>
+              <label for="floatingToUser">To User</label>
+            </div>
+            <div class="form-floating mb-3">
+              <%= f.number_field :amount, min: 1, class: "form-control", id: "floatingAmount", placeholder: "Amount" %>
+              <label for="floatingAmount">Amount</label>
+            </div>
+            <div class="form-floating mb-3">
+              <%= f.text_field :memo, class: "form-control", id: "floatingMemo", placeholder: "メモ" %>
+              <label for="floatingMemo">メモ</label>
+            </div>
+          </div>
+          <div class="row g-0">
+            <div class="w-auto ms-auto">
+              <%= f.submit "BCに記録", class: "btn btn-outline-primary" %>
+              <%= link_to "キャンセル", :back, class: "btn btn-light" %>
+            </div>
+          </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Section: Token transfer -->

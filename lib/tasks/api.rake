@@ -1,6 +1,6 @@
 namespace :api do
   desc 'アドレス一覧'
-  task :get_addresses, [:per, :page, :purpose] => :environment do |task, args|
+  task :get_addresses, [:per, :page, :purpose] => :environment do |_task, args|
     per = args.per.presence || 25
     page = args.page.presence || 1
     purpose = args.purpose.presence || "general"
@@ -10,7 +10,7 @@ namespace :api do
   end
 
   desc 'アドレス作成'
-  task :post_addresses, [:purpose] => :environment do |task, args|
+  task :post_addresses, [:purpose] => :environment do |_task, args|
     purpose = args.purpose.presence || "general"
 
     res = TapyrusApi.post_addresses(purpose: purpose)
@@ -18,7 +18,7 @@ namespace :api do
   end
 
   desc 'トークンの総量取得'
-  task :get_tokens, [:confirmation_only] => :environment do |task, args|
+  task :get_tokens, [:confirmation_only] => :environment do |_task, args|
     confirmation_only = args.confirmation_only.presence || true
 
     res = TapyrusApi.get_tokens(confirmation_only)
@@ -26,7 +26,7 @@ namespace :api do
   end
 
   desc 'トークンの情報取得'
-  task :get_token, [:token_id] => :environment do |task, args|
+  task :get_token, [:token_id] => :environment do |_task, args|
     token_id = args.token_id.presence
 
     res = TapyrusApi.get_token(token_id)
@@ -34,7 +34,7 @@ namespace :api do
   end
 
   desc 'トークンの新規作成'
-  task :post_tokens_issue, [:amount, :token_type, :split] => :environment do |task, args|
+  task :post_tokens_issue, [:amount, :token_type, :split] => :environment do |_task, args|
     amount = args.amount.presence
     if amount.blank?
       p 'Amount(発行量)を指定してください。'
@@ -49,7 +49,7 @@ namespace :api do
   end
 
   desc 'トークンの送付'
-  task :put_tokens_transfer, [:token_id, :address, :amount] => :environment do |task, args|
+  task :put_tokens_transfer, [:token_id, :address, :amount] => :environment do |_task, args|
     token_id = args.token_id.presence
     address = args.address.presence
     amount = args.amount.presence
