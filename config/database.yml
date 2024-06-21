@@ -17,9 +17,9 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  host: db
-  username: postgres
-  password: password
+  host: <%= ENV.fetch("DATABASE_HOST") { "localhost" } %>
+  username: <%= ENV.fetch("DATABASE_USER") { "postgres" } %>
+  password: <%= ENV.fetch("DATABASE_PASSWORD") { "password" } %>
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
@@ -85,5 +85,3 @@ test:
 production:
   <<: *default
   database: tapyoka_production
-  username: tapyoka
-  password: <%= ENV["MYAPP_DATABASE_PASSWORD"] %>
