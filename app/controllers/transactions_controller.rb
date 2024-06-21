@@ -35,8 +35,15 @@ class TransactionsController < ApplicationController
         res = TapyrusApi.put_tokens_transfer(@transaction.token_id, address: @transaction.to_user.address, amount: @transaction.amount, access_token: @transaction.user.access_token)
         logger.info(res)
         if res.present?
+          # 情報を更新
           @transaction.txid = res[:txid]
           @transaction.save!
+          user = @transaction.user
+          user.amount -= @transaction.amount
+          user.save!
+          to_user = @transaction.to_user
+          to_user.amount += @transaction.amount
+          to_user.save!
         else
           Rails.logger.error("#{self.class.name}##{__method__} res=#{res}")
           flash.now[:alert] = 'TapyrusAPIの接続で障害が発生しました'
@@ -60,6 +67,11 @@ class TransactionsController < ApplicationController
     respond_to do |format|
       if @transaction.save
         TapyrusApi.delete_token(@transaction.token_id, amount: @transaction.amount, access_token: @transaction.user.access_token)
+
+        # 情報を更新
+        user = @transaction.user
+        user.amount -= @transaction.amount
+        user.save!
 
         format.html { redirect_to transaction_url(@transaction), notice: "transaction was successfully created." }
         format.json { render :show, status: :created, location: @transaction }
