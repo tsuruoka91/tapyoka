@@ -18,7 +18,7 @@ class TransactionsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create transaction" do
     assert_difference("Transaction.count") do
-      TapyrusApi.stub(:put_tokens_transfer, {txid: @transaction.txid}) do
+      TapyrusApi.stub(:put_tokens_transfer, { txid: @transaction.txid }) do
         post transactions_url, params: {
           transaction: {
             txid: @transaction.txid,

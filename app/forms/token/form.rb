@@ -22,7 +22,7 @@ class Token::Form
   private
 
   def amount_positive_integer?
-    amount > 0
+    amount.positive?
   end
 
   def split_allowed?

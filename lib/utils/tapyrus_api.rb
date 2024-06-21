@@ -1,6 +1,6 @@
 class TapyrusApi
   include Singleton
-  
+
   class FileNotFound < StandardError; end
   class UrlNotFound < StandardError; end
 
@@ -119,6 +119,7 @@ class TapyrusApi
     # @access_token = current_user.access_token
     @url = ENV['TAPYRUS_API_ENDPOINT_URL']
     raise TapyrusApi::UrlNotFound, "接続先URLが正しくありません" if URI::DEFAULT_PARSER.make_regexp.match(@url).blank?
+
     @connection ||= Faraday.new(@url) do |builder|
       builder.response :raise_error
       builder.response :json, parser_options: { symbolize_names: true }, content_type: 'application/json'

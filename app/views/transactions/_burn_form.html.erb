@@ -23,14 +23,14 @@
             <% end %>
 
             <div class="mb-3">
-              <label for="transaction_user_id">User</label>
+              <label for="transaction_dummy">User</label>
               <%= form.hidden_field :user_id, value: @transaction.user_id %>
               <%= form.text_field :dummy, { value: @transaction.user.name, class: "form-control", readonly: true } %>
             </div>
 
             <div class="mb-3">
               <label for="transaction_amount">Amount</label>
-              <%= form.number_field :amount, min: 1, class: "form-control" %>
+              <%= form.number_field :amount, min: 1, class: "form-control", autocomplete: "transaction-amount" %>
             </div>
 
             <div class="mb-3">
