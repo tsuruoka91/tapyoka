@@ -4,7 +4,7 @@
 </section>
 
 <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
-  <h1 class="display-4 fw-light text-body-emphasis">Tapyoka Coin</h1>
+  <h1 class="display-4 fw-light text-body-emphasis"><img src="<%= asset_path('coin100.png') %>" > Tapyoka Coin</h1>
   <p class="lead text-body-secondaryy">家庭内で取引されるブロックチェーン上のステーブルコイン。1タピオカは日本円の100円に交換可能。</p>
 </div>
 
@@ -17,12 +17,18 @@
           <h4 class="my-0 fw-normal"><%= user.name %></h4>
         </div>
         <div class="card-body">
-          <h1 class="card-title pricing-card-title"><%= user.amount %><small class="text-body-secondary fw-light">TPOK</small></h1>
-          <ul class="list-unstyled fw-light mt-3 mb-4">
+          <h1 class="card-title pricing-card-title text-end"><%= user.amount %><small class="text-body-secondary fw-light">TPOK</small></h1>
+          <ul class="list-unstyled text-end fw-light mt-3 mb-4">
             <li>日本円価格 <%= user.amount * 100 %> JPY</li>
             <li>今までもらったコイン <%= Transaction.where(to_user: user).sum(:amount)  %></li>
             <li>今まで現金化したコイン <%= user.transactions.where(transaction_type: :burn).sum(:amount)  %></li>
           </ul>
+          <div style="position: relative; height:0px">
+            <% amount = user.amount.clamp(0, 200) %>
+            <% amount.times do |i| %>
+              <img src="<%= asset_path('coin100.png') %>" class="z-0" style="position: absolute;left: <%=i/20 * 7 + 20 %>px; bottom: <%= (i % 20 * 4) + (amount / 20 * 6) - i/20 * 6 + 20 %>px;" width="50px" height="12px";>
+            <% end %>
+          </div>
           <%= link_to "送金", new_transaction_path(user_id: user), class: "w-50 btn btn-lg btn-outline-primary" %>
           <%= link_to "換金", burn_new_transactions_path(user_id: user), class: "btn btn-lg btn-outline-primary" %>
         </div>
@@ -38,22 +44,22 @@
     <thead>
       <tr>
         <th>日時</th>
-        <th>tx</th>
         <th>種類</th>
         <th>対象</th>
         <th>タピオカ</th>
         <th>メモ</th>
+        <th>tx</th>
       </tr>
     </thead>
     <tbody>
       <% @transactions.each do |t| %>
         <tr>
           <th scope="row" class="text-start"><%= link_to (l t.created_at, format: :default), transaction_path(t[:id]), class: "link-primary" %></th>
-          <td><%= link_to t.txid, "https://testnet-explorer.tapyrus.dev.chaintope.com/tx/#{t.txid}", class: "link-secondary" %></td>
           <td><%= t.transaction_type_i18n %></td>
           <td><%= t.user&.name %> ⇒ <%= t.to_user&.name %></td>
           <td><%= t.amount %></td>
           <td><%= t.memo %></td>
+          <td><%= link_to t.txid, "https://testnet-explorer.tapyrus.dev.chaintope.com/tx/#{t.txid}", class: "link-secondary" %></td>
         </tr>
       <% end %>
     </tbody>
