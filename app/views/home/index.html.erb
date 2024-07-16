@@ -12,8 +12,8 @@
 <div class="row row-cols-1 row-cols-md-4 mb-3 text-center">
   <% @users.each do |user| %>
     <div class="col">
-      <div class="card mb-4 rounded-3 shadow-sm">
-        <div class="card-header py-3">
+      <div class="card mb-4 rounded-3 shadow-sm text-secondary">
+        <div class="card-header py-3" style="background-color: #f5ffff;">
           <h4 class="my-0 fw-normal"><%= user.name %></h4>
         </div>
         <div class="card-body">
@@ -40,8 +40,8 @@
 <h2 class="display-6 text-right mb-4">最近の取引</h2>
 
 <div class="table-responsive">
-  <table class="table text-right table-hover text-nowrap table-striped table-sm">
-    <thead>
+  <table class="table text-right table-hover text-nowrap table-sm">
+    <thead class="table-light" style="--bs-table-bg: #f5ffff;">
       <tr>
         <th>日時</th>
         <th>種類</th>
