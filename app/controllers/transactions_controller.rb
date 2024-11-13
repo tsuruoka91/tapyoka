@@ -18,6 +18,13 @@ class TransactionsController < ApplicationController
     @transaction.amount = 1
   end
 
+  # GET /transactions/gift_new
+  def gift_new
+    @transaction = Transaction.new
+    @transaction.to_user_id = params[:user_id]
+    @transaction.amount = 1
+  end
+
   # GET /transactions/burn_new
   def burn_new
     @transaction = Transaction.new
@@ -33,22 +40,50 @@ class TransactionsController < ApplicationController
     respond_to do |format|
       if @transaction.save
         res = TapyrusApi.put_tokens_transfer(@transaction.token_id, address: @transaction.to_user.address, amount: @transaction.amount, access_token: @transaction.user.access_token)
-        logger.info(res)
+        # 情報を更新
         if res.present?
-          # 情報を更新
+          logger.info(res)
           @transaction.txid = res[:txid]
           @transaction.save!
-          user = @transaction.user
-          user.amount -= @transaction.amount
-          user.save!
-          to_user = @transaction.to_user
-          to_user.amount += @transaction.amount
-          to_user.save!
-        else
-          Rails.logger.error("#{self.class.name}##{__method__} res=#{res}")
-          flash.now[:alert] = 'TapyrusAPIの接続で障害が発生しました'
-          render :new, status: :unprocessable_entity
         end
+        user = @transaction.user
+        user.amount -= @transaction.amount
+        user.save!
+        to_user = @transaction.to_user
+        to_user.amount += @transaction.amount
+        to_user.save!
+
+        format.html { redirect_to transaction_url(@transaction), notice: "transaction was successfully created." }
+        format.json { render :show, status: :created, location: @transaction }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @transaction.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # POST /transactions/gift or /transactions/gift.json
+  # 管理者（固定）からトークンを貰う
+  def gift
+    @transaction = Transaction.new(transaction_params)
+    @transaction.user_id = 1 # 管理者(固定)
+    @transaction.token_id = ENV['TOKEN_ID']
+    @transaction.transaction_type = Transaction.transaction_types[:gift]
+    respond_to do |format|
+      if @transaction.save
+        res = TapyrusApi.put_tokens_transfer(@transaction.token_id, address: @transaction.to_user.address, amount: @transaction.amount, access_token: @transaction.user.access_token)
+        # 情報を更新
+        if res.present?
+          logger.info(res)
+          @transaction.txid = res[:txid]
+          @transaction.save!
+        end
+        user = @transaction.user
+        user.amount -= @transaction.amount
+        user.save!
+        to_user = @transaction.to_user
+        to_user.amount += @transaction.amount
+        to_user.save!
 
         format.html { redirect_to transaction_url(@transaction), notice: "transaction was successfully created." }
         format.json { render :show, status: :created, location: @transaction }
@@ -66,9 +101,13 @@ class TransactionsController < ApplicationController
     @transaction.transaction_type = Transaction.transaction_types[:burn]
     respond_to do |format|
       if @transaction.save
-        TapyrusApi.delete_token(@transaction.token_id, amount: @transaction.amount, access_token: @transaction.user.access_token)
-
+        res = TapyrusApi.delete_token(@transaction.token_id, amount: @transaction.amount, access_token: @transaction.user.access_token)
         # 情報を更新
+        if res.present?
+          logger.info(res)
+          @transaction.txid = res[:txid]
+          @transaction.save!
+        end
         user = @transaction.user
         user.amount -= @transaction.amount
         user.save!
