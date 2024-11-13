@@ -1,0 +1,52 @@
+<section class="mb-4">
+  <div class="card">
+    <div class="card-header py-3">
+      <h5 class="mb-0 text-center"><strong>タピオカを貰う</strong></h5>
+    </div>
+    <div class="card-body">
+      <div class="container">
+
+        <div class="row mt-2">
+        <%= form_with(model: transaction, url: gift_transactions_path) do |form| %>
+          <div class="row mt-2">
+
+            <% if transaction.errors.any? %>
+              <div style="color: red">
+                <h2><%= pluralize(transaction.errors.count, "error") %> prohibited this transaction from being saved:</h2>
+          
+                <ul>
+                  <% transaction.errors.each do |error| %>
+                    <li><%= error.full_message %></li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+
+            <div class="mb-3">
+              <label for="transaction_to_user_id">受取りユーザー</label>
+              <%= form.collection_select :to_user_id, recipient_users(@transaction.user_id), :id, :name, {include_blank: true}, class: "form-select" %>
+            </div>
+
+            <div class="mb-3">
+              <label for="transaction_amount">タピオカ</label>
+              <%= form.number_field :amount, min: 1, class: "form-control", autocomplete: "transaction-amount" %>
+            </div>
+
+            <div class="mb-3">
+              <label for="transaction_memo">メモ</label>
+              <%= form.text_field :memo, class: "form-control" %>
+            </div>
+
+          </div>
+          <div class="row g-0">
+            <div class="w-auto ms-auto">
+              <%= form.submit "実行", class: "btn btn-outline-primary" %>
+              <%= link_to "キャンセル", :back, class: "btn btn-light" %>
+            </div>
+          </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

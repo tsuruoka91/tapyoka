@@ -5,6 +5,7 @@ ja:
       transaction_type:
         transfer: 送付
         burn: 焼却
+        gift: 受取
   activerecord:
     errors:
       messages:

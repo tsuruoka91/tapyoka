@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   resources :timestamps
   resources :transactions do
     collection do
+      get :gift_new
+      post :gift
       get :burn_new
       post :burn
     end

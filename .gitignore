@@ -37,3 +37,4 @@ tapyrus_api_client.pem
 
 *.p12
 .env
+puma.service
