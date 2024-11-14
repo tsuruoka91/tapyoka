@@ -4,7 +4,7 @@ ActiveAdmin.register Transaction do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  permit_params :txid, :token_id, :amount, :address, :user_id, :to_user_id, :memo, :transaction_type
+  permit_params :txid, :token_id, :amount, :address, :user_id, :to_user_id, :memo, :transaction_type, :disabled
   #
   # or
   #
