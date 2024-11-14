@@ -3,7 +3,7 @@ class HomeController < ApplicationController
     @users = User.order('id')
     @users = @users.where(role: :user) unless view_context.admin?
     @transactions = Transaction.order('id DESC').limit(5)
-    @transactions = @transactions.where(user: @users) unless view_context.admin?
+    @transactions = @transactions.where.not(disabled: true) unless view_context.admin?
   end
 
   def change_admin

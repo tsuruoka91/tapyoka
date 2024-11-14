@@ -4,7 +4,7 @@ class TransactionsController < ApplicationController
   # GET /transactions or /transactions.json
   def index
     @transactions = Transaction.page(params[:page]).per(25).order('id DESC')
-    @transactions = @transactions.joins(:user).where(user: { role: :user }) unless view_context.admin?
+    @transactions = @transactions.where.not(disabled: true) unless view_context.admin?
   end
 
   # GET /transactions/1 or /transactions/1.json
