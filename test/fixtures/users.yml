@@ -4,8 +4,10 @@ one:
   name: MyString
   access_token: MyString
   address: MyString
+  amount: 1
 
 two:
   name: MyString
   access_token: MyString
   address: MyString
+  amount: 1
