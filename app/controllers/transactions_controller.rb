@@ -56,8 +56,8 @@ class TransactionsController < ApplicationController
         format.html { redirect_to root_path, notice: "送金が完了しました" }
         format.json { render :show, status: :created, location: @transaction }
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @transaction.errors, status: :unprocessable_entity }
+        format.html { render :new, status: :unprocessable_content }
+        format.json { render json: @transaction.errors, status: :unprocessable_content }
       end
     end
   end
@@ -66,8 +66,16 @@ class TransactionsController < ApplicationController
   # 管理者（固定）からトークンを貰う
   def gift
     @transaction = Transaction.new(transaction_params)
-    @transaction.user_id = 1 # 管理者(固定)
-    @transaction.token_id = ENV['TOKEN_ID']
+    # 管理者ユーザーを取得（name='Admin User'のユーザーまたはIDが1のユーザーまたは最初のユーザー）
+    admin_user = User.find_by(name: 'Admin User') || User.find_by(id: 1) || User.first
+    
+    unless admin_user
+      render json: { error: "管理者ユーザーが見つかりません" }, status: :unprocessable_content
+      return
+    end
+    
+    @transaction.user_id = admin_user.id
+    @transaction.token_id = ENV['TOKEN_ID'] || 'test_token_id'
     @transaction.transaction_type = Transaction.transaction_types[:gift]
     respond_to do |format|
       if @transaction.save
@@ -88,8 +96,8 @@ class TransactionsController < ApplicationController
         format.html { redirect_to root_path, notice: "受取が完了しました" }
         format.json { render :show, status: :created, location: @transaction }
       else
-        format.html { render :gift_new, status: :unprocessable_entity }
-        format.json { render json: @transaction.errors, status: :unprocessable_entity }
+        format.html { render :gift_new, status: :unprocessable_content }
+        format.json { render json: @transaction.errors, status: :unprocessable_content }
       end
     end
   end
@@ -115,8 +123,8 @@ class TransactionsController < ApplicationController
         format.html { redirect_to root_path, notice: "換金が完了しました" }
         format.json { render :show, status: :created, location: @transaction }
       else
-        format.html { render :burn_new, status: :unprocessable_entity }
-        format.json { render json: @transaction.errors, status: :unprocessable_entity }
+        format.html { render :burn_new, status: :unprocessable_content }
+        format.json { render json: @transaction.errors, status: :unprocessable_content }
       end
     end
   end

@@ -11,3 +11,9 @@ two:
   access_token: MyString
   address: MyString
   amount: 1
+
+admin:
+  name: Admin User
+  access_token: admin_token
+  address: admin_address
+  amount: 1000
