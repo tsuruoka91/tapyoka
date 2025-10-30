@@ -29,7 +29,9 @@
               <img src="<%= asset_path('coin100.png') %>" class="z-0" style="position: absolute;left: <%=i/20 * 7 + 20 %>px; bottom: <%= (i % 20 * 4) + (amount / 20 * 6) - i/20 * 6 + 20 %>px;" width="50px" height="12px";>
             <% end %>
           </div>
-          <%= link_to "受取", gift_new_transactions_path(user_id: user), class: "btn btn-lg btn-outline-primary" %>
+          <%= turbo_frame_tag "gift_form_#{user.id}" do %>
+            <%= link_to "受取", gift_new_transactions_path(user_id: user), data: { turbo_frame: "gift_form_#{user.id}" }, class: "btn btn-lg btn-outline-primary" %>
+          <% end %>
           <%= link_to "送金", new_transaction_path(user_id: user), class: "btn btn-lg btn-outline-primary" %>
           <%= link_to "換金", burn_new_transactions_path(user_id: user), class: "btn btn-lg btn-outline-primary" %>
         </div>
@@ -40,29 +42,6 @@
 
 <h2 class="display-6 text-right mb-4">最近の取引</h2>
 
-<div class="table-responsive">
-  <table class="table text-right table-hover text-nowrap table-sm">
-    <thead class="table-light" style="--bs-table-bg: #f5ffff;">
-      <tr>
-        <th>日時</th>
-        <th>種類</th>
-        <th>対象</th>
-        <th>タピオカ</th>
-        <th>メモ</th>
-        <th>tx</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @transactions.each do |t| %>
-        <tr>
-          <th scope="row" class="text-start"><%= link_to (l t.created_at, format: :default), transaction_path(t[:id]), class: "link-primary" %></th>
-          <td><%= t.transaction_type_i18n %></td>
-          <td><%= t.user&.name %> ⇒ <%= t.to_user&.name %></td>
-          <td><%= t.amount %></td>
-          <td><%= t.memo %></td>
-          <td><%= link_to t.txid, "https://testnet-explorer.tapyrus.dev.chaintope.com/tx/#{t.txid}", class: "link-secondary" %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
+<turbo-frame id="transactions_list">
+  <%= render partial: "home/transactions_table", locals: { transactions: @transactions } %>
+</turbo-frame>

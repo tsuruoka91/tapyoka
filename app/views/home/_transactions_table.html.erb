@@ -1,0 +1,26 @@
+<div class="table-responsive">
+  <table class="table text-right table-hover text-nowrap table-sm">
+    <thead class="table-light" style="--bs-table-bg: #f5ffff;">
+      <tr>
+        <th>日時</th>
+        <th>種類</th>
+        <th>対象</th>
+        <th>タピオカ</th>
+        <th>メモ</th>
+        <th>tx</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% transactions.each do |t| %>
+        <tr>
+          <th scope="row" class="text-start"><%= link_to (l t.created_at, format: :default), transaction_path(t[:id]), class: "link-primary" %></th>
+          <td><%= t.transaction_type_i18n %></td>
+          <td><%= t.user&.name %> ⇒ <%= t.to_user&.name %></td>
+          <td><%= t.amount %></td>
+          <td><%= t.memo %></td>
+          <td><%= link_to t.txid, "https://testnet-explorer.tapyrus.dev.chaintope.com/tx/#{t.txid}", class: "link-secondary" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

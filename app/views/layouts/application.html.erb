@@ -42,13 +42,13 @@
             </li>
             <% if admin? %>
               <li class="nav-item">
-                <a class="nav-link <%= active_if('wallets') %>" href="<%= wallets_url %>">Wallets</a>
+                <a class="nav-link <%= active_if('wallets') %>" href="<%= wallets_url %>">ウォレット</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link <%= active_if('tokens') %>" href="<%= tokens_url %>">Token</a>
+                <a class="nav-link <%= active_if('tokens') %>" href="<%= tokens_url %>">トークン</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link <%= active_if('timestamps') %>" href="<%= timestamps_url %>">Timestamp</a>
+                <a class="nav-link <%= active_if('timestamps') %>" href="<%= timestamps_url %>">タイムスタンプ</a>
               </li>
             <% end %>
             <li class="nav-item">

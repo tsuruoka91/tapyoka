@@ -1,0 +1,11 @@
+<turbo-stream action="replace" target="transactions_list">
+  <template>
+    <%= render partial: "home/transactions_table", formats: [:html], locals: { transactions: Transaction.order(id: :desc).limit(5) } %>
+  </template>
+</turbo-stream>
+
+<turbo-stream action="replace" target="gift_form_<%= @transaction.to_user_id %>">
+  <template>
+    <%= link_to "受取", gift_new_transactions_path(user_id: @transaction.to_user_id), data: { turbo_frame: "gift_form_#{@transaction.to_user_id}" }, class: "btn btn-lg btn-outline-primary" %>
+  </template>
+</turbo-stream>

@@ -85,7 +85,8 @@ class TransactionsController < ApplicationController
         to_user.amount += @transaction.amount
         to_user.save!
 
-        format.html { redirect_to transaction_url(@transaction), notice: "transaction was successfully created." }
+        format.turbo_stream
+        format.html { redirect_to transaction_url(@transaction), notice: "受取が完了しました" }
         format.json { render :show, status: :created, location: @transaction }
       else
         format.html { render :new, status: :unprocessable_entity }
