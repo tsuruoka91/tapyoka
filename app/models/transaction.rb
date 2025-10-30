@@ -6,5 +6,5 @@ class Transaction < ApplicationRecord
 
   validates :user_id, presence: true
   validates :to_user_id, presence: true, if: :transfer?
-  validates :amount, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+  validates :amount, presence: true, numericality: { only_integer: true, greater_than: 0 }
 end

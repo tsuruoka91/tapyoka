@@ -53,7 +53,7 @@ class TransactionsController < ApplicationController
         to_user.amount += @transaction.amount
         to_user.save!
 
-        format.html { redirect_to transaction_url(@transaction), notice: "transaction was successfully created." }
+        format.html { redirect_to root_path, notice: "送金が完了しました" }
         format.json { render :show, status: :created, location: @transaction }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -85,10 +85,10 @@ class TransactionsController < ApplicationController
         to_user.amount += @transaction.amount
         to_user.save!
 
-        format.html { redirect_to transaction_url(@transaction), notice: "transaction was successfully created." }
+        format.html { redirect_to root_path, notice: "受取が完了しました" }
         format.json { render :show, status: :created, location: @transaction }
       else
-        format.html { render :new, status: :unprocessable_entity }
+        format.html { render :gift_new, status: :unprocessable_entity }
         format.json { render json: @transaction.errors, status: :unprocessable_entity }
       end
     end
@@ -112,7 +112,7 @@ class TransactionsController < ApplicationController
         user.amount -= @transaction.amount
         user.save!
 
-        format.html { redirect_to transaction_url(@transaction), notice: "transaction was successfully created." }
+        format.html { redirect_to root_path, notice: "換金が完了しました" }
         format.json { render :show, status: :created, location: @transaction }
       else
         format.html { render :burn_new, status: :unprocessable_entity }
