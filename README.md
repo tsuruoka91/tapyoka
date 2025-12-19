@@ -1,13 +1,14 @@
-# Tapyoka
+# Tapyoka Coin
+家族内で使えるブロックチェーンを用いたお小遣いアプリ
 
-<a href="tapyoka.png"><img src="tapyoka.png" alt="Tapyoka" width="50%"></a>
+<a href="tapyoka.png"><img src="tapyoka.png" alt="Tapyoka" width="100%"></a>
 
-
-Tapyrus ブロックチェーンを使用したトークン管理システムです。ユーザー間のトークン送付、バーン、ギフト機能を提供し、タイムスタンプ機能によるデータの証明も可能です。
 
 ## 概要
 
-Tapyoka は Ruby on Rails 8.0 で構築されたWebアプリケーションで、Tapyrus API と連携してブロックチェーン上のトークンを管理します。管理者は ActiveAdmin を通じてユーザーやトランザクションを管理でき、ユーザーはトークンの送付、バーン、ギフトなどの操作を行うことができます。
+Tapyoka Coinは、家族内で使えるブロックチェーンを用いたお小遣いアプリです。お金を直接渡す代わりに、仮想通貨「タピオカコイン」として価値を記録します。「面倒なことを自動化して、家族の関係をすこしだけスムーズにする」 ことを目的としています。
+
+このシステムは [Tapyrus API](https://site.tapyrus.chaintope.com/api/) と連携してブロックチェーン上のトークンを管理します。管理者は ActiveAdmin を通じてユーザーやトランザクションを管理でき、ユーザーはトークンの送付、バーン、ギフトなどの操作を行うことができます。
 
 ## 主な機能
 
@@ -164,12 +165,6 @@ systemd サービスとして起動する場合は、`puma.service` ファイル
 - `TAPYRUS_API_ENDPOINT_URL` が正しく設定されているか確認
 - クライアント証明書 (`tapyrus_api_client_cert.p12`) が配置されているか確認
 - `PKCS_12_PASS` が正しいか確認
-
-### データベース接続エラー
-
-- PostgreSQL が起動しているか確認
-- `DATABASE_HOST` が正しく設定されているか確認（Docker使用時）
-- データベースの認証情報を確認
 
 ### トークン操作が失敗する
 
